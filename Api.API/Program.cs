@@ -5,6 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using Api.Infrastructure.Data;
 using System.Text;
 using MediatR;
+using Api.Infrastructure.Seed;
+using Api.Application.Interfaces.Repositories;
+using Api.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,15 +16,20 @@ var builder = WebApplication.CreateBuilder(args);
 // ----------------------------------------------------------------
 
 // MediatR (Camada de Application)
-// Aqui ele busca todos os Handlers dentro do projeto Application
 builder.Services.AddMediatR(AppDomain.CurrentDomain.Load("Api.Application"));
 
 // Entity Framework & PostgreSQL (Camada de Infrastructure)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// builder.Services.AddDbContext<AppDbContext>(options => 
-//    options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseNpgsql(connectionString));
 
-// Configuração de Autenticação JWT (Camada de Authentication)
+// --- REGISTRO DOS REPOSITÓRIOS ---
+// Adicionamos cada interface e sua respectiva implementação
+builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+
+// Configuração de Autenticação JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -86,5 +94,22 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// ----------------------------------------------------------------
+// 3. Execução do Seeder (População inicial do Banco)
+// ----------------------------------------------------------------
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        await GastoDbSeeder.SeedAsync(services);
+        Console.WriteLine(">>> Banco de dados populado com sucesso!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($">>> Erro ao popular o banco: {ex.Message}");
+    }
+}
 
 app.Run();
