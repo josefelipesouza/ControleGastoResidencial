@@ -25,4 +25,10 @@ public class CategoriaRepository : ICategoriaRepository
     {
         return await _context.Categorias.AsNoTracking().ToListAsync(cancellationToken);
     }
+
+    public async Task<Categoria?> BuscarPorIdAsync(int id, CancellationToken ct)
+    {
+        return await _context.Categorias
+            .FirstOrDefaultAsync(c => c.Id == id, ct);
+    }
 }

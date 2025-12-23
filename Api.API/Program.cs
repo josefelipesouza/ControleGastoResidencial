@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Api.Infrastructure.Data;
 using System.Text;
 using MediatR;
+using FluentValidation;
 using Api.Infrastructure.Seed;
 using Api.Application.Interfaces.Repositories;
 using Api.Infrastructure.Repositories;
@@ -16,12 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 // ----------------------------------------------------------------
 
 // MediatR (Camada de Application)
-builder.Services.AddMediatR(AppDomain.CurrentDomain.Load("Api.Application"));
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssembly(typeof(Api.Application.Handlers.Categoria.Listar.ListarCategoriasHandler).Assembly);
+});
 
 // Entity Framework & PostgreSQL (Camada de Infrastructure)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(connectionString));
+
 
 // --- REGISTRO DOS REPOSITÓRIOS ---
 // Adicionamos cada interface e sua respectiva implementação
