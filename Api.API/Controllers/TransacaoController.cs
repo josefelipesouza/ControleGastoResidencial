@@ -1,5 +1,6 @@
 using Api.Application.Handlers.Transacao.Cadastrar;
 using Api.Application.Handlers.Transacao.ConsultarTotais;
+using Api.Application.Handlers.Transacao.ConsultarTotaisCategoria;
 using Api.Application.Handlers.Transacao.Listar;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -61,4 +62,16 @@ public class TransacaoController : ControllerBase
             errors => Problem(errors.First().Description)
         );
     }
+
+    [HttpGet("totais-por-categoria")]
+    public async Task<IActionResult> ConsultarTotaisCategoria(CancellationToken ct)
+    {
+        var result = await _mediator.Send(new ConsultarTotaisCategoriaRequest(), ct);
+
+        return result.Match(
+            response => Ok(response),
+            errors => Problem(errors.First().Description)
+        );
+    }
+    
 }
