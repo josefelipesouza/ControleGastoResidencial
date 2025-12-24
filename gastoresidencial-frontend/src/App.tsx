@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Layout } from './components/Layout';
 
 // Importações das páginas
@@ -14,43 +14,44 @@ import { TotaisCategoria } from './pages/Categoria/TotaisCategoria';
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          
-          {/* Tela inicial padrão */}
-          <Route index element={
-            <div className="flex flex-col items-center justify-center h-64 bg-white rounded-lg shadow border border-dashed border-gray-300">
-              <h1 className="text-3xl font-bold text-blue-600">GastoResidencial</h1>
-              <p className="text-gray-500 mt-2">Sistema carregado. Use o menu acima.</p>
-            </div>
-          } />
+        <Routes>
+          <Route path="/" element={<Layout />}>
 
-          {/* Grupo Pessoas */}
-          <Route path="pessoas">
-            <Route path="listar" element={<ListarPessoas />} />
-            <Route path="cadastrar" element={<CadastrarPessoa />} />
+            <Route
+              index
+              element={
+                <div className="flex flex-col items-center justify-center h-64 bg-white rounded-lg shadow border border-dashed border-gray-300">
+                  <h1 className="text-3xl font-bold text-blue-600">GastoResidencial</h1>
+                  <p className="text-gray-500 mt-2">Sistema carregado. Use o menu acima.</p>
+                </div>
+              }
+            />
+
+            {/* Pessoas */}
+            <Route path="pessoas" element={<Outlet />}>
+              <Route path="listar" element={<ListarPessoas />} />
+              <Route path="cadastrar" element={<CadastrarPessoa />} />
+            </Route>
+
+            {/* Categorias */}
+            <Route path="categorias" element={<Outlet />}>
+              <Route path="listar" element={<ListarCategorias />} />
+              <Route path="cadastrar" element={<CadastrarCategoria />} />
+            </Route>
+
+            {/* Transações */}
+            <Route path="transacoes" element={<Outlet />}>
+              <Route path="listar" element={<ListarTransacoes />} />
+              <Route path="cadastrar" element={<CadastrarTransacao />} />
+              <Route path="totais-pessoa" element={<TotaisPessoaRelatorio />} />
+              <Route path="totais-categoria" element={<TotaisCategoria />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" />} />
+
           </Route>
+        </Routes>
 
-          {/* Grupo Categorias */}
-          <Route path="categorias">
-            <Route path="listar" element={<ListarCategorias />} />
-            {/* CORREÇÃO: Substituído o 'div' pelo componente importado */}
-            <Route path="cadastrar" element={<CadastrarCategoria />} />
-          </Route>
-
-          {/* Grupo Transações */}
-          <Route path="transacoes">
-            {/* CORREÇÃO: Substituído o 'div' pelo componente importado */}
-            <Route path="listar" element={<ListarTransacoes />} />
-            <Route path="cadastrar" element={<CadastrarTransacao />} />
-            <Route path="totais-pessoa" element={<TotaisPessoaRelatorio />} />
-            <Route path="totais-categoria" element={<TotaisCategoria />} />
-          </Route>
-
-          {/* Redirecionamento para rotas inexistentes */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Route>
-      </Routes>
     </BrowserRouter>
   );
 }
