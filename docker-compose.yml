@@ -32,5 +32,15 @@ services:
       ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=gastodb;Username=devuser;Password=devpassword
       ASPNETCORE_URLS: http://+:8080
 
+  frontend:
+    build:
+      context: ./gastoresidencial-frontend
+      dockerfile: Dockerfile
+    container_name: gasto-residencial-front
+    ports:
+      - "3000:80" # Você acessará em http://localhost:3000
+    depends_on:
+      - api
+
 volumes:
   postgres_data:

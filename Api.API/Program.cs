@@ -16,6 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. Configuração de Serviços (DI - Injeção de Dependência)
 // ----------------------------------------------------------------
 
+// --- CONFIGURAÇÃO DE CORS ---
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // MediatR (Camada de Application)
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Api.Application.Handlers.Categoria.Listar.ListarCategoriasHandler).Assembly);
@@ -28,7 +39,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 // --- REGISTRO DOS REPOSITÓRIOS ---
-// Adicionamos cada interface e sua respectiva implementação
 builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
@@ -85,6 +95,9 @@ var app = builder.Build();
 // ----------------------------------------------------------------
 // 2. Configuração do Pipeline de Requisição (Middleware)
 // ----------------------------------------------------------------
+
+// ATIVAÇÃO DO CORS (Deve vir antes da Autenticação e Autorização)
+app.UseCors("ReactPolicy");
 
 if (app.Environment.IsDevelopment())
 {
