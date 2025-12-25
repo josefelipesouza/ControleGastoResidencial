@@ -1,8 +1,8 @@
-import React, { useState } from 'react'; // Importação explícita do React
+import { useState } from 'react';
 import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { UserPlus } from 'lucide-react';
-
+import { extractErrorMessage } from '../../utils/error';
 
 export function CadastrarPessoa() {
   const [nome, setNome] = useState('');
@@ -14,23 +14,15 @@ export function CadastrarPessoa() {
     e.preventDefault();
     setErro(null);
 
-    const idadeNum = parseInt(idade);
-    if (isNaN(idadeNum)) {
-      setErro("Idade inválida");
-      return;
-    }
-
     try {
       await api.post('/Pessoa', {
-        nome: nome,
-        idade: idadeNum
+        nome,
+        idade: Number(idade)
       });
 
-      alert('Cadastrado com sucesso!');
       navigate('/pessoas/listar');
     } catch (err: any) {
-      const msg = err.response?.data?.errors?.[0]?.description || "Erro ao salvar";
-      setErro(msg);
+      setErro(extractErrorMessage(err));
     }
   }
 
@@ -44,42 +36,44 @@ export function CadastrarPessoa() {
 
       {erro && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md border border-red-200">
-          {erro}
+          <strong>Atenção: </strong>{erro}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+          <label className="block text-sm font-medium mb-1">Nome Completo</label>
           <input
-            type="text"
-            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full p-2 border rounded-md"
             value={nome}
-            onChange={(e) => setNome(e.target.value)}
+            onChange={e => setNome(e.target.value)}
             required
           />
         </div>
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Idade</label>
+          <label className="block text-sm font-medium mb-1">Idade</label>
           <input
             type="number"
-            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full p-2 border rounded-md"
             value={idade}
-            onChange={(e) => setIdade(e.target.value)}
+            onChange={e => setIdade(e.target.value)}
             required
           />
         </div>
+
         <div className="flex gap-2 pt-2">
           <button
             type="button"
             onClick={() => navigate('/pessoas/listar')}
-            className="flex-1 px-4 py-2 border rounded-md hover:bg-gray-50"
+            className="flex-1 border rounded-md py-2"
           >
             Cancelar
           </button>
+
           <button
             type="submit"
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
+            className="flex-1 bg-blue-600 text-white rounded-md py-2"
           >
             Salvar
           </button>
