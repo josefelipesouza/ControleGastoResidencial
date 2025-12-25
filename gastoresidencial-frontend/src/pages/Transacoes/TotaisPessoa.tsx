@@ -17,7 +17,7 @@ export function TotaisPessoaRelatorio() {
       });
   }, []);
 
-  // Formatação de moeda brasileira (reutilizando a lógica do TotaisCategoria)
+  // Formatação para moeda brasileira
   const formatarMoeda = (valor: number) => {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   };
@@ -27,7 +27,6 @@ export function TotaisPessoaRelatorio() {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-      {/* Cabeçalho identico ao TotaisCategoria */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Relatório: Totais por Pessoa</h2>
         <p className="text-gray-500 text-sm">Visão consolidada de transações por integrante.</p>

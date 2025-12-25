@@ -8,6 +8,7 @@ namespace Api.Application.Handlers.Categoria.Cadastrar;
 public record CadastrarCategoriaRequest(string Nome, string Descricao, Finalidade Finalidade) 
     : IRequest<ErrorOr<CadastrarCategoriaResponse>>;
 
+// Classe de Validação usando FluentValidation
 public class CadastrarCategoriaRequestValidator : AbstractValidator<CadastrarCategoriaRequest>
 {
     public CadastrarCategoriaRequestValidator()

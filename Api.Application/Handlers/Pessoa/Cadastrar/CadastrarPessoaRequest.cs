@@ -7,6 +7,7 @@ namespace Api.Application.Handlers.Pessoa.Cadastrar;
 public record CadastrarPessoaRequest(string Nome, int Idade) 
     : IRequest<ErrorOr<CadastrarPessoaResponse>>;
 
+// Classe de Validação usando FluentValidation
 public class CadastrarPessoaRequestValidator : AbstractValidator<CadastrarPessoaRequest>
 {
     public CadastrarPessoaRequestValidator()

@@ -14,6 +14,7 @@ public class ListarPessoasHandler :
         _repo = repo;
     }
 
+    //Monta lista de pessoas
     public async Task<ErrorOr<IEnumerable<ListarPessoasResponse>>> Handle(
         ListarPessoasRequest request, CancellationToken cancellationToken)
     {
@@ -26,6 +27,7 @@ public class ListarPessoasHandler :
                 p.Idade
             )).ToList();
 
+        //Retorna a lista de pessoas
         return response;
     }
 }

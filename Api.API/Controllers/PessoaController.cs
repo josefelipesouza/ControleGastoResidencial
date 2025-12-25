@@ -4,9 +4,6 @@ using Api.Application.Handlers.Pessoa.Remover;
 using ErrorOr;
 
 
-
-// Se você já tiver o Listar criado, adicione o namespace aqui
-// using Api.Application.Handlers.Pessoa.Listar; 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,7 +48,7 @@ public class PessoaController : ControllerBase
         var result = await _mediator.Send(new RemoverPessoaRequest(id), ct);
 
         return result.Match(
-            response => Ok(response), // Retorna 200 OK com a mensagem JSON
+            response => Ok(response),
             errors => {
                 var error = errors.First();
                 if (error.Type == ErrorType.NotFound)

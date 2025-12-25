@@ -38,7 +38,7 @@ services:
       dockerfile: Dockerfile
     container_name: gasto-residencial-front
     ports:
-      - "3000:80" # Você acessará em http://localhost:3000
+      - "3000:80"
     depends_on:
       - api
 

@@ -12,11 +12,7 @@ using Api.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ----------------------------------------------------------------
-// 1. Configuração de Serviços (DI - Injeção de Dependência)
-// ----------------------------------------------------------------
 
-// --- CONFIGURAÇÃO DE CORS ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactPolicy", policy =>
@@ -27,23 +23,19 @@ builder.Services.AddCors(options =>
     });
 });
 
-// MediatR (Camada de Application)
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Api.Application.Handlers.Categoria.Listar.ListarCategoriasHandler).Assembly);
 });
 
-// Entity Framework & PostgreSQL (Camada de Infrastructure)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(connectionString));
 
 
-// --- REGISTRO DOS REPOSITÓRIOS ---
 builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 
-// Configuração de Autenticação JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,7 +58,6 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Swagger configurado para aceitar Token JWT
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle Gasto Residencial API", Version = "v1" });
@@ -92,11 +83,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// ----------------------------------------------------------------
-// 2. Configuração do Pipeline de Requisição (Middleware)
-// ----------------------------------------------------------------
-
-// ATIVAÇÃO DO CORS (Deve vir antes da Autenticação e Autorização)
 app.UseCors("ReactPolicy");
 
 if (app.Environment.IsDevelopment())
@@ -112,9 +98,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// ----------------------------------------------------------------
-// 3. Execução do Seeder (População inicial do Banco)
-// ----------------------------------------------------------------
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

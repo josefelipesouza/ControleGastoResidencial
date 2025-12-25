@@ -23,21 +23,18 @@ export interface ItemTotalPessoa {
     saldo: number;
 }
 
-// Usando 'as const' para que o TS entenda como valores fixos (Tipo Eraseble)
 export const Finalidade = {
     Despesa: 1,
     Receita: 2,
     Ambas: 3
 } as const;
 
-// Isso cria um tipo que aceita apenas 1, 2 ou 3
 export type FinalidadeType = typeof Finalidade[keyof typeof Finalidade];
 
 export interface Categoria {
     id: number;
     nome: string;
     descricao: string;
-    // Alterado para number para bater com a expectativa do compilador
     finalidade: number; 
 }
 

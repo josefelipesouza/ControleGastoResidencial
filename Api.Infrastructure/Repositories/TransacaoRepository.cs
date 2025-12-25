@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Infrastructure.Repositories;
 
+//classe de repositório para Transacao implementando ITransacaoRepository
 public class TransacaoRepository : ITransacaoRepository
 {
     private readonly AppDbContext _context;
@@ -23,7 +24,7 @@ public class TransacaoRepository : ITransacaoRepository
 
     public async Task<IEnumerable<Transacao>> ListarAsync(CancellationToken cancellationToken)
     {
-        // Incluímos as propriedades de navegação para ver Nome da Pessoa e Categoria no Listar
+        // Propriedades de navegação para  Pessoa e Categoria
         return await _context.Transacoes
             .Include(t => t.Categoria)
             .Include(t => t.Pessoa)

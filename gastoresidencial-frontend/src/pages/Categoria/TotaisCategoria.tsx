@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
-// Usamos 'import type' para satisfazer a regra erasableSyntaxOnly
 import type { TotaisCategoriaResponse } from '../../types';
 
 export function TotaisCategoria() {
@@ -18,7 +17,7 @@ export function TotaisCategoria() {
       });
   }, []);
 
-  // Formatação de moeda brasileira
+  // Formatação para moeda brasileira
   const formatarMoeda = (valor: number) => {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   };

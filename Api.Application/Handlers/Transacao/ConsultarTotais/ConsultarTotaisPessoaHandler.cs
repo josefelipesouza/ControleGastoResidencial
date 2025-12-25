@@ -22,12 +22,12 @@ public class ConsultarTotaisPessoaHandler : IRequestHandler<ConsultarTotaisPesso
         var transacoes = await _transacaoRepo.ListarAsync(ct);
 
         var itens = new List<ItemTotalPessoa>();
-
+         
+        //Agrupa as transações por pessoa e calcula os totais por tipo de transação
         foreach (var pessoa in pessoas)
         {
             var transacoesPessoa = transacoes.Where(t => t.IdPessoa == pessoa.Id).ToList();
 
-            // Soma baseada no texto ou enum (ajuste conforme seu banco salva o 'Tipo')
             decimal receitas = transacoesPessoa
                 .Where(t => t.Tipo == "Receita" || t.Tipo == "2")
                 .Sum(t => t.Valor);
@@ -44,10 +44,12 @@ public class ConsultarTotaisPessoaHandler : IRequestHandler<ConsultarTotaisPesso
                 receitas - despesas
             ));
         }
-
+        
+        //Cálculo dos totais gerais por Receita e Despesa
         var totalGeralReceitas = itens.Sum(i => i.TotalReceitas);
         var totalGeralDespesas = itens.Sum(i => i.TotalDespesas);
 
+        //Retorno do Response
         return new ConsultarTotaisPessoaResponse(
             itens,
             totalGeralReceitas,

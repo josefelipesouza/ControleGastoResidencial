@@ -1,3 +1,4 @@
+using Api.Application.Errors;
 using Api.Application.Interfaces.Repositories;
 using ErrorOr;
 using MediatR;
@@ -14,12 +15,15 @@ public class RemoverPessoaHandler : IRequestHandler<RemoverPessoaRequest, ErrorO
     {
         var pessoa = await _repo.BuscarPorIdAsync(request.Id, cancellationToken);
 
+        // Validação se a pessoa existe
         if (pessoa is null)
-            return Error.NotFound(description: $"Pessoa com ID {request.Id} não encontrada.");
-
+            return ApplicationErrors.PessoaNaoEncontrada;
+        
+        // Remoção da pessoa
         _repo.Remover(pessoa);
         await _repo.UnitOfWork.CommitAsync(cancellationToken);
 
+        //Retorno do Response
         return new RemoverPessoaResponse($"Pessoa '{pessoa.Nome}' removida com sucesso!");
     }
 }

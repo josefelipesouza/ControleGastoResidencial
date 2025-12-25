@@ -46,7 +46,7 @@ function App() {
               <Route path="totais-pessoa" element={<TotaisPessoaRelatorio />} />
               <Route path="totais-categoria" element={<TotaisCategoria />} />
             </Route>
-
+          
             <Route path="*" element={<Navigate to="/" />} />
 
           </Route>

@@ -31,7 +31,7 @@ export function ListarTransacoes() {
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
-      {/* Cabeçalho e Busca */}
+      
       <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-3 text-blue-600">
           <Receipt size={28} />
@@ -50,7 +50,6 @@ export function ListarTransacoes() {
         </div>
       </div>
 
-      {/* Tabela */}
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -67,7 +66,6 @@ export function ListarTransacoes() {
               transacoesFiltradas.map((t) => (
                 <tr key={t.id} className="hover:bg-blue-50/50 transition-colors">
                   <td className="p-4 text-center w-16">
-                    {/* Valida se o tipo é "Receita" ou "2" conforme seu Handler */}
                     {t.tipo === "Receita" || t.tipo === "2" ? (
                       <ArrowUpCircle className="text-green-500" size={24} aria-label="Receita" />
                     ) : (

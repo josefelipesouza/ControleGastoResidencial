@@ -1,4 +1,3 @@
-# Etapa 1 — Build
 FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
@@ -17,7 +16,6 @@ COPY . .
 WORKDIR /src/Api.API
 RUN dotnet publish -c Release -o /app/publish
 
-# Etapa 2 — Runtime
 FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 

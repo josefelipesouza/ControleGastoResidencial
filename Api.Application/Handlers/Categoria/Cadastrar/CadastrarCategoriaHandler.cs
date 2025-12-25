@@ -17,7 +17,7 @@ public class CadastrarCategoriaHandler : IRequestHandler<CadastrarCategoriaReque
     public async Task<ErrorOr<CadastrarCategoriaResponse>> Handle(
         CadastrarCategoriaRequest request, CancellationToken cancellationToken)
     {
-        // 1. Validação Manual (seguindo seu exemplo)
+        //Validação dados do request
         var validator = new CadastrarCategoriaRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
         
@@ -26,7 +26,7 @@ public class CadastrarCategoriaHandler : IRequestHandler<CadastrarCategoriaReque
                 .Select(e => Error.Validation(e.PropertyName, e.ErrorMessage))
                 .ToList();
 
-        // 2. Mapeamento para Entidade
+        //Mapeamento para Entidade
         var categoria = new Domain.Entities.Categoria
         {
             Nome = request.Nome,
@@ -34,11 +34,11 @@ public class CadastrarCategoriaHandler : IRequestHandler<CadastrarCategoriaReque
             Finalidade = request.Finalidade
         };
 
-        // 3. Persistência
+        //Persistência
         await _repo.AdicionarAsync(categoria, cancellationToken);
         await _repo.UnitOfWork.CommitAsync(cancellationToken);
 
-        // 4. Retorno do Response
+        //Retorno do Response
         return new CadastrarCategoriaResponse(
             categoria.Id, 
             categoria.Nome, 

@@ -14,6 +14,7 @@ public class ListarCategoriasHandler :
         _repo = repo;
     }
 
+    //Monta lista de categorias
     public async Task<ErrorOr<IEnumerable<ListarCategoriasResponse>>> Handle(
         ListarCategoriasRequest request, CancellationToken cancellationToken)
     {
@@ -26,7 +27,8 @@ public class ListarCategoriasHandler :
                 c.Descricao,
                 c.Finalidade
             )).ToList();
-
+            
+        //Retorna a lista de categorias
         return response;
     }
 }

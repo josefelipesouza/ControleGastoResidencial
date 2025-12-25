@@ -18,7 +18,7 @@ public class CadastrarPessoaHandler : IRequestHandler<CadastrarPessoaRequest, Er
     public async Task<ErrorOr<CadastrarPessoaResponse>> Handle(
         CadastrarPessoaRequest request, CancellationToken cancellationToken)
     {
-        // 1. Validação de Sintaxe (FluentValidation)
+        //Validação dos dados do request
         var validator = new CadastrarPessoaRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
         
@@ -27,25 +27,25 @@ public class CadastrarPessoaHandler : IRequestHandler<CadastrarPessoaRequest, Er
                 .Select(e => Error.Validation(e.PropertyName, e.ErrorMessage))
                 .ToList();
 
-        // 2. Validação de Regra de Negócio
-        // Verifica se a idade é zero ou negativa conforme sua solicitação
+        //Validação de Regra de Negócio
+        //Verifica se a idade é valida, não pode ser menor ou igual a zero
         if (request.Idade <= 0)
         {
             return ApplicationErrors.PessoaIdadeInvalida;
         }
 
-        // 3. Mapeamento
+        //Mapeamento
         var pessoa = new Domain.Entities.Pessoa
         {
             Nome = request.Nome,
             Idade = request.Idade
         };
 
-        // 4. Persistência
+        //Persistência
         await _repo.AdicionarAsync(pessoa, cancellationToken);
         await _repo.UnitOfWork.CommitAsync(cancellationToken);
 
-        // 5. Resposta
+        //Retorno do Response
         return new CadastrarPessoaResponse(pessoa.Id, pessoa.Nome, pessoa.Idade);
     }
 }

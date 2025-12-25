@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Infrastructure.Repositories;
 
+//classe de repositório para Categoria implementando ICategoriaRepository
 public class CategoriaRepository : ICategoriaRepository
 {
     private readonly AppDbContext _context;

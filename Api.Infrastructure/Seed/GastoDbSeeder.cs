@@ -1,6 +1,6 @@
 using Api.Domain.Entities;
 using Api.Domain.Enums;
-using Api.Infrastructure.Data; // Ajuste para o seu namespace
+using Api.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

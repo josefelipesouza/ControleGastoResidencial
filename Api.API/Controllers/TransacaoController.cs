@@ -28,11 +28,11 @@ public class TransacaoController : ControllerBase
         return result.Match(
             response => CreatedAtAction(nameof(Cadastrar), new { id = response.Id }, response),
             errors => {
-                // Se for erro de validação (FluentValidation), retornamos 400 Bad Request
+                
                 if (errors.Any(e => e.Type == ErrorOr.ErrorType.Validation))
                     return BadRequest(errors);
 
-                // Caso contrário, retornamos o primeiro erro como um problema de negócio
+                
                 return Problem(
                     detail: errors.First().Description, 
                     statusCode: StatusCodes.Status400BadRequest

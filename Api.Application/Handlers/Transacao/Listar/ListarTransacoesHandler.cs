@@ -27,9 +27,9 @@ public class ListarTransacoesHandler : IRequestHandler<ListarTransacoesRequest, 
 
         var response = new List<ListarTransacoesResponse>();
 
+        //Para cada transação, busca o nome da categoria, tipo de transação, valor e  pessoa associada
         foreach (var t in transacoes)
         {
-            // Busca os nomes para o retorno (em um cenário real, você usaria um Include no EF)
             var categoria = await _categoriaRepo.BuscarPorIdAsync(t.IdCategoria, cancellationToken);
             var pessoa = await _pessoaRepo.BuscarPorIdAsync(t.IdPessoa, cancellationToken);
 
@@ -43,6 +43,7 @@ public class ListarTransacoesHandler : IRequestHandler<ListarTransacoesRequest, 
             ));
         }
 
+        //Retorna a lista de transações com os dados associados
         return response;
     }
 }

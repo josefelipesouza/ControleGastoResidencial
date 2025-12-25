@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Infrastructure.Repositories;
 
+//classe de repositório para Pessoa implementando IPessoaRepository
 public class PessoaRepository : IPessoaRepository
 {
     private readonly AppDbContext _context;

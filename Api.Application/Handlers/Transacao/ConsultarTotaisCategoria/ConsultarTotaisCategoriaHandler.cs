@@ -22,11 +22,11 @@ public class ConsultarTotaisCategoriaHandler : IRequestHandler<ConsultarTotaisCa
 
         var itens = new List<ItemTotalCategoria>();
 
+        //Agrupa as transações por categoria e calcula os totais por tipo de transação
         foreach (var categoria in categorias)
         {
             var transacoesCategoria = transacoes.Where(t => t.IdCategoria == categoria.Id).ToList();
 
-            // Soma considerando os possíveis formatos do campo Tipo (String ou Número do Enum)
             decimal receitas = transacoesCategoria
                 .Where(t => t.Tipo == "Receita" || t.Tipo == "2")
                 .Sum(t => t.Valor);
@@ -44,9 +44,11 @@ public class ConsultarTotaisCategoriaHandler : IRequestHandler<ConsultarTotaisCa
             ));
         }
 
+        //Cálculo dos totais gerais por Receita e Despesa
         var totalGeralReceitas = itens.Sum(i => i.TotalReceitas);
         var totalGeralDespesas = itens.Sum(i => i.TotalDespesas);
-
+        
+        //Retorno do Response
         return new ConsultarTotaisCategoriaResponse(
             itens,
             totalGeralReceitas,

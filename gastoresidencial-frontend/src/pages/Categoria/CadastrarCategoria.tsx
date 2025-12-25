@@ -19,7 +19,6 @@ export function CadastrarCategoria() {
     setCarregando(true);
 
     try {
-      // O objeto segue o record CadastrarCategoriaRequest do seu backend
       await api.post('/Categoria', {
         nome,
         descricao,
@@ -29,7 +28,6 @@ export function CadastrarCategoria() {
       alert('Categoria criada com sucesso!');
       navigate('/categorias/listar');
     } catch (err: any) {
-      // Captura erros de validação do FluentValidation vindo do backend
       const mensagem = err.response?.data?.errors?.[0]?.description 
                     || err.response?.data?.detail 
                     || 'Erro ao conectar com o servidor.';

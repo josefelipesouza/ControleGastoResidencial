@@ -12,6 +12,7 @@ public record CadastrarTransacaoRequest(
     int IdCategoria, 
     int IdPessoa) : IRequest<ErrorOr<CadastrarTransacaoResponse>>;
 
+// Classe de Validação usando FluentValidation
 public class CadastrarTransacaoRequestValidator : AbstractValidator<CadastrarTransacaoRequest>
 {
     public CadastrarTransacaoRequestValidator()
@@ -20,7 +21,6 @@ public class CadastrarTransacaoRequestValidator : AbstractValidator<CadastrarTra
         RuleFor(x => x.Valor).GreaterThan(0).WithMessage("O valor deve ser maior que zero.");
         
         RuleFor(x => x.Tipo)
-            // Especificamos explicitamente o tipo do Enum no IsInEnum
             .IsInEnum<CadastrarTransacaoRequest, Finalidade>() 
             .WithMessage("O tipo de transação deve ser 1 (Despesa) ou 2 (Receita).");
 

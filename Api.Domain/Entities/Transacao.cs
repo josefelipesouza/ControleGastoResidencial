@@ -5,7 +5,7 @@ namespace Api.Domain.Entities;
         public int Id { get; set; }
         public string Descricao { get; set; } = string.Empty;
         public decimal Valor { get; set; }
-        public string Tipo { get; set; } = string.Empty; // "Despesa" ou "Receita"
+        public string Tipo { get; set; } = string.Empty; 
 
         // Relacionamento com Categoria
         public int IdCategoria { get; set; }
