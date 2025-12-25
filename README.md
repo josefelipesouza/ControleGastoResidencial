@@ -1,7 +1,9 @@
 🏠 Controle de Gasto Residencial
+
 Sistema para gestão financeira doméstica, focado na visualização de receitas e despesas. O projeto utiliza uma estrutura modular no back-end e uma interface baseada em componentes no front-end.
 
 🚀 Tecnologias e Versões
+
 Back-end
 Linguagem: C#
 
@@ -27,6 +29,7 @@ Estilização: Tailwind CSS
 Ambiente de Build: Node.js 20-alpine
 
 🏛️ Arquitetura e Estrutura
+
 O sistema foi desenvolvido utilizando os princípios da Clean Architecture, separando a lógica de negócio das implementações externas:
 
 Api.API: Camada de interface Web (Controllers e Configurações).
@@ -42,6 +45,7 @@ Api.Authentication: Camada estrutural para futura implementação de segurança.
 gastoresidencial-frontend: Interface do usuário desenvolvida em React.
 
 🛠️ Como rodar o projeto
+
 Como o projeto utiliza Docker, todo o ambiente (API, Banco de Dados e Frontend) é configurado automaticamente.
 
 1. Clonar o Repositório
@@ -68,6 +72,7 @@ Interface (Frontend): http://localhost:3000
 Documentação API (Swagger): http://localhost:5000/swagger/index.html
 
 🛑 Encerrar o Projeto
+
 Para parar a execução e remover todos os containers e redes criadas pelo Docker, utilize:
 
 Bash
