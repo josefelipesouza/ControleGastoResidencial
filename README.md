@@ -47,8 +47,10 @@ Como o projeto utiliza Docker, todo o ambiente (API, Banco de Dados e Frontend) 
 1. Clonar o Repositório
 Bash
 
-git clone https://github.com/seu-usuario/ControleGastoResidencial.git
+https://github.com/josefelipesouza/ControleGastoResidencial.git
+
 cd ControleGastoResidencial
+
 2. Iniciar os Serviços
 No terminal da pasta raiz, execute o comando para buildar e subir os containers:
 
