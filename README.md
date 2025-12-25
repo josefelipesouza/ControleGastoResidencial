@@ -61,6 +61,7 @@ No terminal da pasta raiz, execute o comando para buildar e subir os containers:
 Bash
 
 docker-compose up --build
+
 [!NOTE] Este comando irá baixar as imagens necessárias, compilar o código e preparar o ambiente completo.
 
 3. Criação do Banco e Tabelas
