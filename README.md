@@ -47,29 +47,28 @@ Como o projeto utiliza Docker, todo o ambiente (API, Banco de Dados e Frontend) 
 1. Clonar o Repositório
 Bash
 
-https://github.com/josefelipesouza/ControleGastoResidencial.git
-
+git clone https://github.com/josefelipesouza/ControleGastoResidencial.git
 cd ControleGastoResidencial
-
 2. Iniciar os Serviços
 No terminal da pasta raiz, execute o comando para buildar e subir os containers:
 
 Bash
 
 docker-compose up --build
+[!NOTE] Este comando irá baixar as imagens necessárias, compilar o código e preparar o ambiente completo.
+
 3. Criação do Banco e Tabelas
 O Docker subirá o container do PostgreSQL (gasto-residencial-db).
 
-A API aguardará o banco estar pronto (healthcheck) para iniciar.
+A API aguardará o banco estar pronto (healthcheck) para iniciar automaticamente.
 
 4. Acessar o Sistema
 Interface (Frontend): http://localhost:3000
 
 Documentação API (Swagger): http://localhost:5000/swagger/index.html
 
-
 🛑 Encerrar o Projeto
-Para parar e remover todos os containers e redes criadas:
+Para parar a execução e remover todos os containers e redes criadas pelo Docker, utilize:
 
 Bash
 
