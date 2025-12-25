@@ -6,7 +6,6 @@ using Api.Infrastructure.Data;
 using System.Text;
 using MediatR;
 using FluentValidation;
-using Api.Infrastructure.Seed;
 using Api.Application.Interfaces.Repositories;
 using Api.Infrastructure.Repositories;
 
@@ -100,16 +99,8 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    try
-    {
-        await GastoDbSeeder.SeedAsync(services);
-        Console.WriteLine(">>> Banco de dados populado com sucesso!");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($">>> Erro ao popular o banco: {ex.Message}");
-    }
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
 }
 
 app.Run();
